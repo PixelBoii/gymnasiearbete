@@ -2,7 +2,9 @@
 
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
+use App\Http\Controllers\DeviceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,8 +26,18 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function() {
+    Route::get('/', function (Request $request) {
+        return Inertia::render('Dashboard', [
+            'devices' => $request->user()->devices()->with('locations', 'lastLocation')->get(),
+        ]);
+    })->name('dashboard');
+
+    Route::prefix('/devices')->group(function() {
+        Route::resource('/', DeviceController::class)->only([
+            'store', 'update', 'destroy'
+        ]);
+    });
+});
 
 require __DIR__.'/auth.php';
