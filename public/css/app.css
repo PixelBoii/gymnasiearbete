@@ -1402,10 +1402,6 @@ select {
 .ease-in {
 	transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
 }
-.map {
-    width: 1000px;
-    height: 1000px;
-}
 .hover\:border-gray-300:hover {
 	--tw-border-opacity: 1;
 	border-color: rgba(209, 213, 219, var(--tw-border-opacity));
@@ -1626,3 +1622,4 @@ select {
 		padding-right: 2rem;
 	}
 }
+
